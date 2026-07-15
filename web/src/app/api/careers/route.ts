@@ -439,13 +439,9 @@ export async function POST(req: Request) {
       });
     }
 
-    // Auto-detect address outside interview Q&A (e.g. after ack / onboarding / closing)
-    if (
-      content &&
-      looksLikeShippingAddress(content) &&
-      phase !== "awaiting_feedback" &&
-      phase !== "awaiting_address"
-    ) {
+    // Auto-detect address outside interview Q&A (e.g. after ack / onboarding / closing).
+    // awaiting_feedback / awaiting_address already returned above.
+    if (content && looksLikeShippingAddress(content)) {
       if (!app.shippingAddress) {
         app.shippingAddress = content;
         app.addressSubmittedAt = new Date().toISOString();
