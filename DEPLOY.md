@@ -37,14 +37,16 @@ npx supabase db push
 
 Or paste `001_init.sql` + `002_app_runtime_state.sql` into the SQL editor.
 
-3. Copy Project URL, anon key, and service_role key into Fly secrets.
+3. Copy the **Session pooler** Postgres URI into Fly as `DATABASE_URL` (see below).
+
+> **Note:** Fly persistence uses direct Postgres (`DATABASE_URL`) for the `app_runtime_state` snapshot table. Legacy JWT Supabase API keys (`anon` / `service_role`) are optional for future browser auth. New `sb_publishable_*` / `sb_secret_*` keys do not work with `@supabase/supabase-js` REST yet.
 
 ## Fly.io
 
 ```powershell
 cd c:\Users\HomePC\Cliq-WorkSpace\tradeflow-ai\web
 fly apps create tradeflow-ai
-fly secrets set NEXT_PUBLIC_APP_URL=https://tradeflow-ai.fly.dev NEXT_PUBLIC_SUPABASE_URL=... NEXT_PUBLIC_SUPABASE_ANON_KEY=... SUPABASE_SERVICE_ROLE_KEY=...
+fly secrets set NEXT_PUBLIC_APP_URL=https://tradeflow-ai.fly.dev DATABASE_URL=postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres
 fly deploy
 ```
 
