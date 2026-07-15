@@ -1,0 +1,91 @@
+:root {
+  --bg-0: #07111c;
+  --bg-1: #0c1a2b;
+  --bg-2: #122438;
+  --ink: #e8f0f7;
+  --muted: #8aa0b5;
+  --line: rgba(232, 240, 247, 0.12);
+  --accent: #2ee6a6;
+  --accent-dim: rgba(46, 230, 166, 0.16);
+  --warn: #f4c14f;
+  --bad: #ff6b6b;
+  --good: #2ee6a6;
+  --font-display: "Syne", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--bg-0);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(46, 230, 166, 0.14), transparent 55%),
+    radial-gradient(900px 500px at -10% 20%, rgba(244, 193, 79, 0.08), transparent 50%),
+    linear-gradient(165deg, #07111c 0%, #0a1624 45%, #0d1f33 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-line {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}

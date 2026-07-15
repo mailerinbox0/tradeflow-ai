@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.local
+.env*.local
+dist/
+build/
+.next/
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+frontend-vite-legacy/
+web/.next/
+web/node_modules/
+.fly/
+supabase/.temp/
+supabase/.branches/
+
+

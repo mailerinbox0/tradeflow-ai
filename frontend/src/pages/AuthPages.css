@@ -1,0 +1,74 @@
+.auth {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.25rem;
+}
+
+.auth__brand {
+  position: absolute;
+  top: 1.25rem;
+  left: clamp(1.25rem, 4vw, 3rem);
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 1.35rem;
+  animation: rise-in 0.5s ease both;
+}
+
+.auth__form {
+  width: min(100%, 420px);
+  display: grid;
+  gap: 0.85rem;
+  animation: rise-in 0.65s ease both;
+}
+
+.auth__form h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+}
+
+.auth__form > p {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+}
+
+.auth__form label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.auth__form input {
+  width: 100%;
+  min-height: 2.85rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--line);
+  background: rgba(7, 17, 28, 0.55);
+  color: var(--ink);
+  outline: none;
+}
+
+.auth__form input:focus {
+  border-color: rgba(46, 230, 166, 0.55);
+}
+
+.auth__error {
+  margin: 0;
+  color: var(--bad);
+  font-size: 0.92rem;
+}
+
+.auth__hint {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.auth__form .btn {
+  margin-top: 0.35rem;
+  width: 100%;
+}

@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #050b18;
+  --bg-elevated: #0b1428;
+  --bg-card: #0f1a31;
+  --ink: #f4f7fb;
+  --muted: #8b9bb4;
+  --line: rgba(148, 163, 184, 0.18);
+  --blue: #00a3ff;
+  --blue-glow: rgba(0, 163, 255, 0.45);
+  --cyan: #38bdf8;
+  --green: #22c55e;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --radius: 14px;
+  --font-display: "Segoe UI", "Avenir Next", "Helvetica Neue", sans-serif;
+  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --color-blue: var(--blue);
+  --color-green: var(--green);
+  --color-red: var(--red);
+  --font-sans: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+body {
+  background-image:
+    linear-gradient(rgba(0, 163, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 163, 255, 0.035) 1px, transparent 1px),
+    radial-gradient(900px 500px at 80% -10%, rgba(0, 163, 255, 0.16), transparent 55%),
+    radial-gradient(700px 400px at 0% 30%, rgba(34, 197, 94, 0.07), transparent 50%);
+  background-size: 48px 48px, 48px 48px, auto, auto;
+  background-attachment: fixed;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(47, 123, 255, 0.35);
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.85); }
+}
+
+.tf-ticker {
+  animation: ticker 60s linear infinite;
+}
+
+/* Activity feed: slow enough to read names + amounts */
+.tf-ticker-activity {
+  animation: ticker 280s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tf-ticker,
+  .tf-ticker-activity {
+    animation: none;
+  }
+}
+
+.tf-glow {
+  box-shadow: 0 0 24px var(--blue-glow);
+}
+
+.tf-card {
+  background: linear-gradient(180deg, rgba(15, 26, 49, 0.92), rgba(11, 20, 40, 0.92));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px);
+}
+
+.tf-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(5, 11, 24, 0.65);
+  color: var(--ink);
+  outline: none;
+}
+
+.tf-input:focus {
+  border-color: rgba(47, 123, 255, 0.7);
+}
+
+.tf-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+.tf-btn:hover {
+  transform: translateY(-1px);
+}
+
+.tf-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tf-btn-primary {
+  background: var(--blue);
+  color: white;
+}
+
+.tf-btn-primary:hover {
+  background: #4689ff;
+}
+
+.tf-btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.tf-btn-success {
+  background: var(--green);
+  color: #04140a;
+}

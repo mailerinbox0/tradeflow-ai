@@ -1,0 +1,15 @@
+# Ignore build artifacts for Docker context
+Dockerfile
+.dockerignore
+.git
+.gitignore
+*.md
+.env
+.env.*
+!.env.example
+.next
+node_modules
+npm-debug.log*
+.DS_Store
+coverage
+.turbo
