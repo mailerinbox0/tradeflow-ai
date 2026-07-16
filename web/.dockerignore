@@ -8,7 +8,10 @@ Dockerfile
 .env.*
 !.env.example
 .next
+out
 node_modules
+firebase-debug.log*
+.firebase
 npm-debug.log*
 .DS_Store
 coverage

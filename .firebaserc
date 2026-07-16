@@ -1,0 +1,13 @@
+{
+  "projects": {
+    "default": "inboxmailer-b9020"
+  },
+  "targets": {
+    "inboxmailer-b9020": {
+      "hosting": {
+        "tradeflow": ["tradeflow-ai-b9020"]
+      }
+    }
+  },
+  "etags": {}
+}

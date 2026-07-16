@@ -12,6 +12,7 @@ import {
 import { AppShell } from "@/components/AppShell";
 import { TradingViewLiveChart, DASHBOARD_CHART_SYMBOLS } from "@/components/TradingViewLiveChart";
 import { apiFetch, useAuth } from "@/lib/auth-store";
+import { apiUrl } from "@/lib/api-base";
 import { formatUsd } from "@/lib/utils";
 
 type Dash = {
@@ -136,7 +137,7 @@ export default function AppDashboard() {
           setError(err instanceof Error ? err.message : "Failed to load account");
         });
 
-      const mktPromise = fetch("/api/markets", { cache: "no-store" })
+      const mktPromise = fetch(apiUrl("/api/markets"), { cache: "no-store" })
         .then(async (res) => {
           if (!res.ok) throw new Error("Markets unavailable");
           return res.json() as Promise<{ markets: Market[] }>;

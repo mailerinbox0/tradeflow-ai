@@ -18,6 +18,9 @@ frontend-vite-legacy/
 web/.next/
 web/node_modules/
 .fly/
+.firebase/
+web/.firebase/
+web/out/
 supabase/.temp/
 supabase/.branches/
 

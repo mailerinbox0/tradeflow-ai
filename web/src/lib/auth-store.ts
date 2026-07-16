@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { apiUrl } from "@/lib/api-base";
 
 type AuthUser = {
   id: string;
@@ -44,7 +45,7 @@ export async function apiFetch<T>(
   if (opts.token) headers.set("Authorization", `Bearer ${opts.token}`);
   let res: Response;
   try {
-    res = await fetch(path, { ...opts, headers, cache: opts.cache ?? "no-store" });
+    res = await fetch(apiUrl(path), { ...opts, headers, cache: opts.cache ?? "no-store" });
   } catch {
     throw new Error("Network error — check that the app server is running");
   }

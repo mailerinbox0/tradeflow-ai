@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { apiUrl } from "@/lib/api-base";
 
 type Item = {
   id: string;
@@ -20,7 +21,7 @@ export function ActivityBanner() {
     let alive = true;
     (async () => {
       try {
-        const res = await fetch("/api/activity");
+        const res = await fetch(apiUrl("/api/activity"));
         const data = await res.json();
         if (alive) setItems(data.items || []);
       } catch {

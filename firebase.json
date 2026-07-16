@@ -1,0 +1,33 @@
+{
+  "hosting": {
+    "site": "tradeflow-ai-b9020",
+    "public": "web/out",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "cleanUrls": true,
+    "headers": [
+      {
+        "source": "/_next/static/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=31536000,immutable"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/careers/interview/**",
+        "destination": "/careers/interview/_/index.html"
+      },
+      {
+        "source": "/careers/mailbox/**",
+        "destination": "/careers/mailbox/_/index.html"
+      },
+      {
+        "source": "/careers/acknowledge/**",
+        "destination": "/careers/acknowledge/_/index.html"
+      }
+    ]
+  }
+}

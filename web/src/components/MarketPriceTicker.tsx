@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { apiUrl } from "@/lib/api-base";
 
 type Market = { symbol: string; price: number; change24h: number };
 
@@ -16,7 +17,7 @@ export function MarketPriceTicker() {
     let alive = true;
     const load = async () => {
       try {
-        const res = await fetch("/api/markets");
+        const res = await fetch(apiUrl("/api/markets"));
         const data = await res.json();
         if (alive) setMarkets(data.markets || []);
       } catch {
