@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AdminShell, type AdminSection } from "@/components/AdminShell";
 import { apiFetch, useAuth } from "@/lib/auth-store";
 import { formatUsd } from "@/lib/utils";
@@ -243,6 +243,7 @@ export default function AdminPage() {
   const [autoSubject, setAutoSubject] = useState("");
   const [autoMessage, setAutoMessage] = useState("");
   const [eligible, setEligible] = useState<string[]>([]);
+  const [eligibleQuery, setEligibleQuery] = useState("");
   const [savingAuto, setSavingAuto] = useState(false);
   const [walletForm, setWalletForm] = useState({
     id: "",
@@ -473,6 +474,14 @@ export default function AdminPage() {
 
   function toggleEligible(id: string) {
     setEligible((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  }
+
+  function setEligibleFor(ids: string[], checked: boolean) {
+    setEligible((prev) => {
+      if (checked) return Array.from(new Set([...prev, ...ids]));
+      const remove = new Set(ids);
+      return prev.filter((id) => !remove.has(id));
+    });
   }
 
   async function saveWallet(e: React.FormEvent) {
@@ -747,6 +756,16 @@ export default function AdminPage() {
   };
 
   const traders = data.users.filter((u) => u.role === "user");
+  const eligibleQueryText = eligibleQuery.trim().toLowerCase();
+  const filteredTraders = useMemo(() => {
+    if (!eligibleQueryText) return traders;
+    return traders.filter((u) => {
+      const haystack = `${u.fullName} ${u.email}`.toLowerCase();
+      return haystack.includes(eligibleQueryText);
+    });
+  }, [eligibleQueryText, traders]);
+  const filteredTraderIds = filteredTraders.map((u) => u.id);
+  const selectedFilteredCount = filteredTraderIds.filter((id) => eligible.includes(id)).length;
   const assets = data.depositAssets?.length
     ? data.depositAssets
     : [{ symbol: "USDT", networks: ["TRC20", "ERC20", "BEP20"] as string[] }];
@@ -861,11 +880,45 @@ export default function AdminPage() {
             <p className="mb-2 text-xs text-[var(--muted)]">
               Only checked users receive the automatic message after a successful withdrawal.
             </p>
+            <div className="mb-3 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
+              <input
+                className="tf-input"
+                value={eligibleQuery}
+                onChange={(e) => setEligibleQuery(e.target.value)}
+                placeholder="Search by name or email"
+              />
+              <button
+                type="button"
+                className="tf-btn tf-btn-ghost"
+                onClick={() => setEligibleFor(filteredTraderIds, true)}
+                disabled={filteredTraders.length === 0 || selectedFilteredCount === filteredTraders.length}
+              >
+                Select visible
+              </button>
+              <button
+                type="button"
+                className="tf-btn tf-btn-ghost"
+                onClick={() => setEligibleFor(filteredTraderIds, false)}
+                disabled={selectedFilteredCount === 0}
+              >
+                Clear visible
+              </button>
+            </div>
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted)]">
+              <span>
+                Selected {eligible.length} of {traders.length} trader{traders.length === 1 ? "" : "s"}
+              </span>
+              <span>
+                Showing {filteredTraders.length} result{filteredTraders.length === 1 ? "" : "s"}
+              </span>
+            </div>
             <div className="max-h-48 space-y-2 overflow-y-auto rounded-xl border border-[var(--line)] p-3">
               {traders.length === 0 ? (
                 <p className="text-sm text-[var(--muted)]">No traders yet.</p>
+              ) : filteredTraders.length === 0 ? (
+                <p className="text-sm text-[var(--muted)]">No traders match that search.</p>
               ) : (
-                traders.map((u) => (
+                filteredTraders.map((u) => (
                   <label
                     key={u.id}
                     className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 hover:bg-white/5"
