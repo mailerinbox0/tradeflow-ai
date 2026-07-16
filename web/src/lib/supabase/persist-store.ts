@@ -55,16 +55,26 @@ async function hydrate(getPayload: () => unknown, setPayload: (data: unknown) =>
       [STATE_ID],
     );
     const row = rows[0];
-    if (row?.payload && typeof row.payload === "object") {
-      setPayload(row.payload);
+    const payload = row?.payload;
+    if (isValidStorePayload(payload)) {
+      setPayload(payload);
       console.info("[persist] hydrated demo-store from Postgres");
-    } else {
-      const payload = JSON.parse(JSON.stringify(getPayload())) as object;
+    } else if (payload && typeof payload === "object") {
+      console.warn("[persist] ignoring invalid stored payload — re-seeding");
+      const fresh = JSON.parse(JSON.stringify(getPayload())) as object;
       await client.query(
         `INSERT INTO public.app_runtime_state (id, payload, updated_at)
          VALUES ($1, $2::jsonb, now())
          ON CONFLICT (id) DO UPDATE SET payload = EXCLUDED.payload, updated_at = now()`,
-        [STATE_ID, JSON.stringify(payload)],
+        [STATE_ID, JSON.stringify(fresh)],
+      );
+    } else {
+      const fresh = JSON.parse(JSON.stringify(getPayload())) as object;
+      await client.query(
+        `INSERT INTO public.app_runtime_state (id, payload, updated_at)
+         VALUES ($1, $2::jsonb, now())
+         ON CONFLICT (id) DO UPDATE SET payload = EXCLUDED.payload, updated_at = now()`,
+        [STATE_ID, JSON.stringify(fresh)],
       );
     }
   } catch (e) {
@@ -72,6 +82,12 @@ async function hydrate(getPayload: () => unknown, setPayload: (data: unknown) =>
   } finally {
     hydrated = true;
   }
+}
+
+function isValidStorePayload(payload: unknown): payload is Record<string, unknown> {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return false;
+  const p = payload as Record<string, unknown>;
+  return Array.isArray(p.users) && typeof p.sessions === "object" && p.sessions !== null;
 }
 
 async function flush(getPayload: () => unknown) {

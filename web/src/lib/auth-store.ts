@@ -50,6 +50,11 @@ export async function apiFetch<T>(
     throw new Error("Network error — check that the app server is running");
   }
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "Request failed");
+  if (!res.ok) {
+    const msg =
+      (data && typeof data === "object" && "error" in data && String((data as { error?: string }).error)) ||
+      (res.status === 404 ? "API not found — check server is running" : `Request failed (${res.status})`);
+    throw new Error(msg);
+  }
   return data as T;
 }
