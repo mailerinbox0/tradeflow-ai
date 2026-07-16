@@ -87,7 +87,13 @@ async function hydrate(getPayload: () => unknown, setPayload: (data: unknown) =>
 function isValidStorePayload(payload: unknown): payload is Record<string, unknown> {
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) return false;
   const p = payload as Record<string, unknown>;
-  return Array.isArray(p.users) && typeof p.sessions === "object" && p.sessions !== null;
+  return (
+    Array.isArray(p.users) &&
+    p.users.length > 0 &&
+    typeof p.sessions === "object" &&
+    p.sessions !== null &&
+    Array.isArray(p.activities)
+  );
 }
 
 async function flush(getPayload: () => unknown) {

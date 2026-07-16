@@ -67,8 +67,8 @@ textarea {
 }
 
 @keyframes ticker {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 
 @keyframes pulse-dot {
@@ -83,6 +83,7 @@ textarea {
 /* Activity feed: slow enough to read names + amounts */
 .tf-ticker-activity {
   animation: ticker 280s linear infinite;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
